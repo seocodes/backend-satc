@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Nome Completo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Cadastro de Nome Completo</h2>
+        <form method="POST" action="ex002.php">
+            <div class="form-group">
+                <label for="primeiro_nome">Primeiro Nome:</label>
+                <input type="text" id="primeiro_nome" name="primeiro_nome" required placeholder="Digite seu primeiro nome">
+            </div>
+            <div class="form-group">
+                <label for="sobrenome1">Primeiro Sobrenome:</label>
+                <input type="text" id="sobrenome1" name="sobrenome1" required placeholder="Digite seu primeiro sobrenome">
+            </div>
+            <div class="form-group">
+                <label for="sobrenome2">Segundo Sobrenome:</label>
+                <input type="text" id="sobrenome2" name="sobrenome2" required placeholder="Digite seu segundo sobrenome">
+            </div>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+</body>
+</html>
