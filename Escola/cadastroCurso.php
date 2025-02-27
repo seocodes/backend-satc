@@ -1,42 +1,53 @@
 <?php
-//fazer conexao com o banco de dados
-$conectar = mysql_connect("localhost","root","");
-$banco = mysql_select_db("escola");
+$conectar = mysql_connect("localhost", "root", "");
+$banco = mysql_select_db("escola1");
 
-//opcao de cadastro
-if(isset($_POST['Cadastrar'])){
-    //capturar as variaveis do html
-    $codigo = $_POST['codigo'];
-    $nome_curso = $_POST['nome_curso'];
-    $coordernador = $_POST['coordenador'];
-
-    //comando sql do banco de dados
-    $sql = "INSERT INTO curso(codigo, nome_curso, coordenador) values ('$codigo','$nome_curso','$coordernador');";
-
-    //manda executar o comando no BD
+if (isset($_POST['Cadastrar'])) {
+    $codCurso = $_POST['codCurso'];
+    $nomeCurso = $_POST['nomeCurso'];
+    $codCoordenador = $_POST['codCoordenador'];
+    $sql = "INSERT INTO curso(codigo, nome, codcoordenador) VALUES ('$codCurso', '$nomeCurso', '$codCoordenador');";
     $resultado = mysql_query($sql);
-    
-    if ($resultado == TRUE){
-        echo "Dados gravados com sucesso.";
-    }
-    else{
-        echo "Cadastro de dados falhou!";
+    if ($resultado == TRUE) {
+        echo "Curso cadastrado com sucesso.";
+    } else {
+        echo "Cadastro de curso falhou!";
     }
 }
 
-//opcao de alterar
-if(isset($_POST['Alterar'])){
-
+if (isset($_POST['Alterar'])) {
+    $codCurso = $_POST['codCurso'];
+    $nomeCurso = $_POST['nomeCurso'];
+    $codCoordenador = $_POST['codCoordenador'];
+    $sql = "UPDATE curso SET nome = '$nomeCurso', codcoordenador = '$codCoordenador' WHERE codigo = '$codCurso';";
+    $resultado = mysql_query($sql);
+    if ($resultado == TRUE) {
+        echo "Curso alterado com sucesso.";
+    } else {
+        echo "Alteração de curso falhou!";
+    }
 }
 
-//opcao de excluir
-if(isset($_POST['Excluir'])){
-
+if (isset($_POST['Excluir'])) {
+    $codCurso = $_POST['codCurso'];
+    $sql = "DELETE FROM curso WHERE codigo = '$codCurso';";
+    $resultado = mysql_query($sql);
+    if ($resultado == TRUE) {
+        echo "Curso excluído com sucesso.";
+    } else {
+        echo "Exclusão de curso falhou!";
+    }
 }
 
-//opcao de pesquisar
-if(isset($_POST['Pesquisar'])){
-
+if (isset($_POST['Pesquisar'])) {
+    $sql = "SELECT * FROM curso;";
+    $resultado = mysql_query($sql);
+    if (mysql_num_rows($resultado) > 0) {
+        while ($linha = mysql_fetch_assoc($resultado)) {
+            echo "Código: " . $linha['codigo'] . " - Nome: " . $linha['nome'] . " - Coordenador: " . $linha['codcoordenador'] . "<br>";
+        }
+    } else {
+        echo "Pesquisa de cursos falhou!";
+    }
 }
-
 ?>
