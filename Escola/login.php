@@ -16,10 +16,11 @@ if(isset($_POST['Entrar'])){
     $resultado = mysql_query($sql);
     
     if (mysql_num_rows($resultado) > 0){
-        echo "<script>alert('Entrou.');</script>";
+        setcookie('login',$login);
+        header('Location: menu.php');
     }
     else{
-        echo "<script>alert('Entrou.');</script>";
+        echo "<script>alert('Deu errado.');</script>";
     }
 }
 ?>
