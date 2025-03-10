@@ -17,7 +17,7 @@ if(isset($_POST['Entrar'])){
     
     if (mysql_num_rows($resultado) > 0){
         setcookie('login',$login);
-        header('Location: menu.php');
+        header('Location: menu.html');
     }
     else{
         echo "<script>alert('Deu errado.');</script>";
