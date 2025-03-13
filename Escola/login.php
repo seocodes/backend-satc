@@ -16,7 +16,7 @@ if(isset($_POST['Entrar'])){
     $resultado = mysql_query($sql);
     
     if (mysql_num_rows($resultado) > 0){
-        setcookie('login',$login);
+        setcookie('login',$login);  //pra info ficar salva
         header('Location: menu.html');
     }
     else{

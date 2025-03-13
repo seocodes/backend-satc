@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escola Arthur Casagrande</title>
+    <style>
+        :root {
+            --primary-blue: #1a73e8;
+            --secondary-blue: #4285f4;
+            --light-blue: #e8f0fe;
+            --dark-blue: #0d47a1;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            line-height: 1.6;
+        }
+    
+        .header {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-icon {
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+        
+        .login-btn {
+            background-color: white;
+            color: var(--primary-blue);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .login-btn:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .hero-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 3rem;
+            background-color: var(--light-blue);
+            padding: 2rem;
+            border-radius: 8px;
+        }
+        
+        .hero-section h1 {
+            color: var(--dark-blue);
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+        }
+        
+        .hero-section p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto 1.5rem;
+        }
+        
+        .school-image {
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            background-color: #f0f0f0;
+            border: 2px dashed var(--primary-blue);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+        }
+        
+        .about-section {
+            margin-bottom: 3rem;
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .about-section h2 {
+            color: var(--dark-blue);
+            border-bottom: 2px solid var(--light-blue);
+            padding-bottom: 10px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-title {
+            color: var(--primary-blue);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+
+        .footer {
+            background-color: var(--dark-blue);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .footer p {
+            margin: 0;
+        }
+        
+        /* responsividade */
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            
+            .school-image {
+                height: 300px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <span class="logo-icon">📚</span>
+            Escola Arthur Casagrande
+        </div>
+        <a href="login.php"><button class="login-btn">Login</button></a>
+    </header>
+    
+    <main class="main-content">
+        <section class="hero-section">
+            <h1>Bem-vindos à Escola Arthur Casagrande</h1>
+            <p>Formando cidadãos e construindo o futuro através da educação de qualidade</p>
+            
+            <div class="school-image">
+                <img src="arthur.jpg" name="arthur">
+            </div>
+        </section>
+        
+        <h2 class="section-title">Nossa História</h2>
+        
+        <section class="about-section">
+            <h2>Quem foi Arthur Casagrande</h2>
+            <p>Arthur Casagrande (1902-1981) foi um renomado engenheiro civil e professor, considerado um dos pioneiros da mecânica dos solos moderna. Nascido na Áustria, imigrou para os Estados Unidos onde se tornou professor em Harvard e desenvolveu métodos revolucionários para análise de solos que são utilizados até hoje.</p>
+            <p>Nossa instituição foi fundada em 1985 e recebeu seu nome em homenagem a este grande cientista e educador, refletindo nosso compromisso com a excelência acadêmica e inovação.</p>
+            
+            <h2>Nossa Trajetória</h2>
+            <p>A Escola Arthur Casagrande iniciou suas atividades em um pequeno prédio no centro da cidade, com apenas 120 alunos. Ao longo dos anos, crescemos continuamente, sempre mantendo nosso compromisso com a qualidade de ensino e o desenvolvimento integral dos estudantes.</p>
+            <p>Em 2005, mudamos para nossas instalações atuais, um campus moderno com laboratórios equipados, quadras esportivas, biblioteca e espaços de convivência. Hoje, atendemos mais de 1.200 alunos, da educação infantil ao ensino médio, e somos reconhecidos como uma das instituições de ensino mais respeitadas da região.</p>
+            
+            <h2>Nossa Missão</h2>
+            <p>Na Escola Arthur Casagrande, nossa missão é proporcionar uma educação transformadora que desenvolva não apenas o conhecimento acadêmico, mas também valores éticos, responsabilidade social e pensamento crítico. Buscamos formar cidadãos preparados para os desafios do século XXI, capazes de contribuir positivamente para a sociedade.</p>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 Escola Arthur Casagrande. Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>

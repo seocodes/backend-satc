@@ -64,11 +64,26 @@
             display: flex;
             justify-content: space-between;
         }
+        .menu-btn{
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            border: none;
+            width: auto;
+            padding: 5px 5px;
+            margin-right: 5px;
+            border-radius: 8px;
+        }
+        .menu-btn:hover{
+            background-color: #45a049
+        }
+
     </style>
 </head>
 <body>
 
     <div class="form-container">
+        <a href="menu.html"><button class="menu-btn">Menu</button></a>
         <h2>Cadastro de Curso</h2>
         <form method="POST" action="cadastroCurso.php">
             <div class="form-group">
@@ -89,4 +104,4 @@
                 <input type="submit" value="Excluir" name="Excluir">
                 <input type="submit" value="Pesquisar" name="Pesquisar">
             </div>
-        <
+        
