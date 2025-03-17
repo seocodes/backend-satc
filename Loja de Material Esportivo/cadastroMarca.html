@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Marca</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            height: auto;
+        }
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            margin: 20px 0;
+        }
+        .form-container h2 {
+            text-align: center;
+            color: #333;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .form-group input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            border: none;
+            width: auto;
+            padding: 10px 20px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        .form-group input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .menu-btn{
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            border: none;
+            width: auto;
+            padding: 5px 5px;
+            margin-right: 5px;
+            border-radius: 8px;
+        }
+        .menu-btn:hover{
+            background-color: #45a049
+        }
+        @media (max-height: 800px) {
+            body {
+                align-items: flex-start;
+                overflow-y: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <a href="menu.html"><button class="menu-btn">Menu</button></a>
+        <h2>Cadastro de Marca</h2>
+        <form method="POST" action="cadastroMarca.php">
+            <div class="form-group">
+                <label for="codigo">Código</label>
+                <input type="text" id="codigo" name="codigo" placeholder="Digite o código da marca">
+            </div>
+            <div class="form-group">
+                <label for="nome">Nome da Marca</label>
+                <input type="text" id="nome" name="nome" placeholder="Digite o nome da marca">
+            </div>
+            <div class="form-group button-group">
+                <input type="submit" value="Cadastrar" name="Cadastrar">
+                <input type="submit" value="Alterar" name="Alterar">
+                <input type="submit" value="Excluir" name="Excluir">
+                <input type="submit" value="Pesquisar" name="Pesquisar">
+            </div>
+        </form>
+    </div>
+</body>
+</html>
