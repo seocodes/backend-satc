@@ -3,12 +3,12 @@
 $conectar = mysql_connect('localhost','root','');
 $banco    = mysql_select_db("loja");
 
-if (isset($_POST['gravar']))
+if (isset($_POST['Cadastrar']))
 {
     $codigo            = $_POST['codigo'];
     $descricao         = $_POST['descricao'];
     $codcategoria      = $_POST['codcategoria'];
-    $codclassificacao  = $_POST['codtipo'];
+    $codtipo           = $_POST['codtipo'];
     $codmarca          = $_POST['codmarca'];
     $cor               = $_POST['cor'];
     $tamanho           = $_POST['tamanho'];
@@ -28,25 +28,25 @@ if (isset($_POST['gravar']))
 
     $extensao2 = strtolower(substr($_FILES['foto2']['name'], -6));
     $novo_nome2 = md5(time().$extensao2);
-    move_uploaded_file($_FILES['foto2']['tmp_name'], $diretorio.$novo_nome2);
+    move_uploaded_file($_FILES['foto2']['tmp_name'], $diretorio.$novo_nome2); 
 
-   $sql = mysql_query("INSERT INTO produto (codigo,descricao,codcategoria,codclassificacao,codmarca, cor,tamanho,preco,foto1,foto2,foto3)
-                values ('$codigo','$descricao','$codcategoria','$codclassificacao','$codmarca','$cor','$tamanho','$preco','$novo_nome1','$novo_nome2')");
+    $sql = mysql_query("INSERT INTO produto (codigo, descricao, cor, tamanho, preco, codmarca, codcategoria, codtipo, foto1, foto2) 
+                VALUES ('$codigo', '$descricao', '$cor', '$tamanho', '$preco', '$codmarca', '$codcategoria', '$codtipo', '$novo_nome1', '$novo_nome2')");
 
    $resultado = mysql_query($sql);
 
    if ($resultado)
-        {echo " Falha ao gravar os dados informados";}
+        {echo " Falha ao Cadastrar os dados informados";}
    else
-        {echo " Dados informados cadastrados com sucesso";}
+      {echo " Dados informados cadastrados com sucesso";}
 }
 
-if (isset($_POST['excluir']))
+if (isset($_POST['Excluir']))
 {
    $codigo            = $_POST['codigo'];
    $descricao         = $_POST['descricao'];
    $codcategoria      = $_POST['codcategoria'];
-   $codclassificacao  = $_POST['codclassificacao'];
+   $codtipo  = $_POST['codtipo'];
    $codmarca          = $_POST['codmarca'];
    $cor               = $_POST['cor'];
    $tamanho           = $_POST['tamanho'];
@@ -58,7 +58,7 @@ if (isset($_POST['excluir']))
 
   $resultado = mysql_query($sql);
 
-  if ($resultado === TRUE)
+  if ($resultado == TRUE)
   {
      echo 'Exclusao realizada com Sucesso';
   }
@@ -68,12 +68,12 @@ if (isset($_POST['excluir']))
   }
 }
 
-if (isset($_POST['alterar']))
+if (isset($_POST['Alterar']))
 {
    $codigo            = $_POST['codigo'];
    $descricao         = $_POST['descricao'];
    $codcategoria      = $_POST['codcategoria'];
-   $codclassificacao  = $_POST['codclassificacao'];
+   $codtipo  = $_POST['codtipo'];
    $codmarca          = $_POST['codmarca'];
    $cor               = $_POST['cor'];
    $tamanho           = $_POST['tamanho'];
@@ -85,7 +85,7 @@ if (isset($_POST['alterar']))
           WHERE codigo = '$codigo'";
   $resultado = mysql_query($sql);
 
-  if ($resultado === TRUE)
+  if ($resultado == TRUE)
   {
      echo 'Dados alterados com Sucesso';
   }
@@ -95,9 +95,9 @@ if (isset($_POST['alterar']))
   }
 }
 
-if (isset($_POST['pesquisar']))
+if (isset($_POST['Pesquisar']))
 {
-   $sql = mysql_query("SELECT codigo,descricao,codcategoria,codclassificacao,codmarca,cor,tamanho,preco,foto1,foto2 FROM produto");
+   $sql = mysql_query("SELECT codigo,descricao,codcategoria,codtipo,codmarca,cor,tamanho,preco,foto1,foto2 FROM produto");
    
    if (mysql_num_rows($sql) == 0)
          {echo "Desculpe, mas sua pesquisa não retornou resultados.";}
@@ -109,7 +109,7 @@ if (isset($_POST['pesquisar']))
                 echo "Codigo         : ".$dados->codigo." ";
                 echo "Descricao      : ".$dados->descricao."<br>";
                 echo "Categoria      : ".$dados->codcategoria." ";
-                echo "Classificacao  : ".$dados->codclassificacao." ";
+                echo "Classificacao  : ".$dados->codtipo." ";
                 echo "Marca          : ".$dados->codmarca."";  
                 echo "Cor            : ".$dados->cor."<br>";
                 echo "Tamanho        : ".$dados->tamanho." ";
