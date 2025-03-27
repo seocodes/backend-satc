@@ -35,7 +35,7 @@ if (isset($_POST['Cadastrar']))
 
    $resultado = mysql_query($sql);
 
-   if ($resultado)
+   if ($resultado > 0)
         {echo " Falha ao Cadastrar os dados informados";}
    else
       {echo " Dados informados cadastrados com sucesso";}
