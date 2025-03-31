@@ -224,7 +224,15 @@ while ($row = mysql_fetch_assoc($resultcategoria)) {
             </label>  
             <?php endforeach; ?>
         </div>
-    </div>
+        <div class="filter-section">
+            <h3>Categoria</h3>
+            <?php foreach ($categorias as $categoria): ?>
+                <label>
+                    <input type="checkbox"><?php echo htmlspecialchars($categoria['nome']);?>
+                </label>  
+                <?php endforeach; ?>
+        </div>
+</div>
 
     <?php
     $sql = "SELECT * FROM produto";
