@@ -320,7 +320,7 @@ while ($row = mysql_fetch_assoc($resultadoprodutos)) {
 <body>
 <!-- Nova barra de navegação -->
 <nav class="nav">
-    <a href="index.php" class="nav-logo">SportShop</a>
+    <a href="index.php" class="nav-logo">AugusteraInsano</a>
     <div class="nav-links">
         <a href="index.php" class="nav-link">Home</a>
         <a href="produtos.php" class="nav-link">Produtos</a>
