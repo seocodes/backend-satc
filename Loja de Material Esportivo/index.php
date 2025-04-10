@@ -1,18 +1,9 @@
 <?php
 $conectar = mysql_connect('localhost','root','');
-$banco    = mysql_select_db("loja");
-
-$queryproduto = "SELECT * FROM produto";
-$resultadoprodutos = mysql_query($queryproduto);
-
-$produtos = array();
-while ($row = mysql_fetch_assoc($resultadoprodutos)){
-    $produtos[] = $row;
-}
+$banco = mysql_select_db("loja");
 
 $querymarca = "SELECT * FROM marca"; 
 $resultmarca = mysql_query($querymarca);
-
 $marcas = array();
 while ($row = mysql_fetch_assoc($resultmarca)) {
     $marcas[] = $row;
@@ -20,13 +11,52 @@ while ($row = mysql_fetch_assoc($resultmarca)) {
 
 $querycategoria = "SELECT * FROM categoria"; 
 $resultcategoria = mysql_query($querycategoria);
-
 $categorias = array();
 while ($row = mysql_fetch_assoc($resultcategoria)) {
     $categorias[] = $row;
 }
-?>
 
+// Obter os filtros da URL
+$categoriaAtual = isset($_GET['categoria']) ? mysql_real_escape_string($_GET['categoria']) : "";
+$marcaAtual = isset($_GET['marca']) ? mysql_real_escape_string($_GET['marca']) : "";
+
+// Construir a consulta filtrada
+$queryproduto = "SELECT p.* FROM produto p";
+
+// Adicionar JOINs se necessário
+if ($categoriaAtual != "") {
+    $queryproduto .= " JOIN categoria c ON p.codcategoria = c.codigo";
+}
+if ($marcaAtual != "") {
+    $queryproduto .= " JOIN marca m ON p.codmarca = m.codigo";
+}
+
+// Adicionar cláusulas WHERE
+$where = array();
+if ($categoriaAtual != "") {
+    $where[] = "c.nome = '$categoriaAtual'";
+}
+if ($marcaAtual != "") {
+    $where[] = "m.nome = '$marcaAtual'";
+}
+
+// Adicionar WHERE se houver filtros
+if (count($where) > 0) {
+    $queryproduto .= " WHERE " . implode(" AND ", $where);
+}
+
+// Executar a consulta filtrada
+$resultadoprodutos = mysql_query($queryproduto);
+if (!$resultadoprodutos) {
+    die("Erro na consulta: " . mysql_error());
+}
+
+// Armazenar os produtos
+$produtos = array();
+while ($row = mysql_fetch_assoc($resultadoprodutos)) {
+    $produtos[] = $row;
+}
+?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -38,7 +68,7 @@ while ($row = mysql_fetch_assoc($resultcategoria)) {
     <style>
         * {
             margin: 0;
-            padding: 0;
+            padding: 0; 
             box-sizing: border-box;
             font-family: 'Inter', sans-serif;
         }
@@ -90,7 +120,7 @@ while ($row = mysql_fetch_assoc($resultcategoria)) {
             color: #343a40;
         }
 
-        .filter-section input[type="checkbox"] {
+        .filter-section input[type="radio"] {
             appearance: none;
             width: 20px;
             height: 20px;
@@ -104,12 +134,12 @@ while ($row = mysql_fetch_assoc($resultcategoria)) {
             transition: all 0.3s ease;
         }
 
-        .filter-section input[type="checkbox"]:checked {
+        .filter-section input[type="radio"]:checked {
             background-color: #007bff;
             border-color: #007bff;
         }
 
-        .filter-section input[type="checkbox"]:checked::after {
+        .filter-section input[type="radio"]:checked::after {
             content: '✔';
             color: white;
             font-size: 12px;
@@ -214,24 +244,31 @@ while ($row = mysql_fetch_assoc($resultcategoria)) {
     </style>
 </head>
 <body>
-    <div class="sidebar">
-        <h2>Filtros</h2>
+<div class="sidebar">
+    <h2>Filtros</h2>
+    <form method="GET" action="">
         <div class="filter-section">
-        <h3>Marca</h3>
-        <?php foreach ($marcas as $marca): ?>
-            <label>
-                <input type="checkbox"><?php echo htmlspecialchars($marca['nome']);?>
-            </label>  
+            <h3>Marca</h3>
+            <?php foreach ($marcas as $marca): ?>
+                <label>
+                    <input type="radio" name="marca" value="<?php echo htmlspecialchars($marca['nome']); ?>"
+                        <?php if($marcaAtual == $marca['nome']) echo 'checked'; ?>>
+                    <?php echo htmlspecialchars($marca['nome']); ?>
+                </label>  
             <?php endforeach; ?>
         </div>
         <div class="filter-section">
             <h3>Categoria</h3>
             <?php foreach ($categorias as $categoria): ?>
                 <label>
-                    <input type="checkbox"><?php echo htmlspecialchars($categoria['nome']);?>
+                    <input type="radio" name="categoria" value="<?php echo htmlspecialchars($categoria['nome']); ?>"
+                        <?php if($categoriaAtual == $categoria['nome']) echo 'checked'; ?>>
+                    <?php echo htmlspecialchars($categoria['nome']); ?>
                 </label>  
-                <?php endforeach; ?>
+            <?php endforeach; ?>
         </div>
+        <button type="submit" class="botao-comprar" style="margin-bottom: 20px;">Aplicar Filtros</button>
+    </form>
 </div>
 
     <?php
@@ -239,19 +276,23 @@ while ($row = mysql_fetch_assoc($resultcategoria)) {
     $resultado = mysql_query($sql);
     ?>
 
-    <div class="produtos">
+<div class="produtos">
+<?php if(count($produtos) > 0): ?>
     <?php foreach ($produtos as $produto): ?>
-                <div class="card-produto">
-                    <img src="fotos/<?php echo $produto['foto1']?>">
-                    <div class="card-produto-info">
-                        <h3><?php echo htmlspecialchars($produto['descricao']); ?></h3>
-                        <div class="preco">
-                        R$ <?php echo number_format($produto['preco'], 2, ',', '.'); ?>
-                        <button class="botao-comprar">Comprar</button>
-                        </div>
-                    </div>
+        <div class="card-produto">
+            <img src="fotos/<?php echo $produto['foto1']?>">
+            <div class="card-produto-info">
+                <h3><?php echo htmlspecialchars($produto['descricao']); ?></h3>
+                <div class="preco">
+                R$ <?php echo number_format($produto['preco'], 2, ',', '.'); ?>
+                <button class="botao-comprar">Comprar</button>
                 </div>
-            <?php endforeach; ?>
-    </div>
+            </div>
+        </div>
+    <?php endforeach; ?>
+<?php else: ?>
+    <p>Nenhum produto encontrado com os filtros selecionados.</p>
+<?php endif; ?>
+</div>
 </body>
 </html>
