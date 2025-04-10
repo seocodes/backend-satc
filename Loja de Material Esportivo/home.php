@@ -47,6 +47,7 @@ if (count($where) > 0) {
 
 // Executar a consulta filtrada
 $resultadoprodutos = mysql_query($queryproduto);
+
 if (!$resultadoprodutos) {
     die("Erro na consulta: " . mysql_error());
 }
@@ -75,8 +76,66 @@ while ($row = mysql_fetch_assoc($resultadoprodutos)) {
 
         body {
             display: flex;
+            flex-direction: column;
             background-color: #f8f9fa;
             min-height: 100vh;
+        }
+
+        /* Estilos para a navegação */
+        .nav {
+            background-color: #212529;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #adb5bd;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: white;
+        }
+
+        .nav-link.login {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link.login:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        /* Ajuste para o conteúdo principal */
+        .main-content {
+            display: flex;
+            flex-grow: 1;
         }
 
         .sidebar {
@@ -223,7 +282,7 @@ while ($row = mysql_fetch_assoc($resultadoprodutos)) {
         }
 
         @media (max-width: 1024px) {
-            body {
+            .main-content {
                 flex-direction: column;
             }
 
@@ -240,59 +299,97 @@ while ($row = mysql_fetch_assoc($resultadoprodutos)) {
                 flex: 1;
                 min-width: 200px;
             }
+            
+            .nav {
+                padding: 15px;
+            }
+            
+            .nav-links {
+                gap: 15px;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .nav {
+                flex-direction: column;
+                gap: 15px;
+            }
         }
     </style>
 </head>
 <body>
-<div class="sidebar">
-    <h2>Filtros</h2>
-    <form method="GET" action="">
-        <div class="filter-section">
-            <h3>Marca</h3>
-            <?php foreach ($marcas as $marca): ?>
-                <label>
-                    <input type="radio" name="marca" value="<?php echo htmlspecialchars($marca['nome']); ?>"
-                        <?php if($marcaAtual == $marca['nome']) echo 'checked'; ?>>
-                    <?php echo htmlspecialchars($marca['nome']); ?>
-                </label>  
-            <?php endforeach; ?>
-        </div>
-        <div class="filter-section">
-            <h3>Categoria</h3>
-            <?php foreach ($categorias as $categoria): ?>
-                <label>
-                    <input type="radio" name="categoria" value="<?php echo htmlspecialchars($categoria['nome']); ?>"
-                        <?php if($categoriaAtual == $categoria['nome']) echo 'checked'; ?>>
-                    <?php echo htmlspecialchars($categoria['nome']); ?>
-                </label>  
-            <?php endforeach; ?>
-        </div>
-        <button type="submit" class="botao-comprar" style="margin-bottom: 20px;">Aplicar Filtros</button>
-    </form>
-</div>
+<!-- Nova barra de navegação -->
+<nav class="nav">
+    <a href="index.php" class="nav-logo">SportShop</a>
+    <div class="nav-links">
+        <a href="index.php" class="nav-link">Home</a>
+        <a href="produtos.php" class="nav-link">Produtos</a>
+        <a href="sobre.php" class="nav-link">Sobre</a>
+        <a href="contato.php" class="nav-link">Contato</a>
+        <a href="login.php" class="nav-link login">Login</a>
+    </div>
+</nav>
 
-    <?php
-    $sql = "SELECT * FROM produto";
-    $resultado = mysql_query($sql);
-    ?>
+<div class="main-content">
+    <div class="sidebar">
+        <h2>Filtros</h2>
+        <form method="GET" action="">
+            <div class="filter-section">
+                <h3>Marca</h3>
+                <?php foreach ($marcas as $marca): ?>
+                    <label>
+                        <input type="radio" name="marca" value="<?php echo htmlspecialchars($marca['nome']); ?>" onclick="handleClick(this)"
+                            <?php if($marcaAtual == $marca['nome']) echo 'checked'; ?>>
+                        <?php echo htmlspecialchars($marca['nome']); ?>
+                    </label>  
+                <?php endforeach; ?>
+            </div>
+            <div class="filter-section">
+                <h3>Categoria</h3>
+                <?php foreach ($categorias as $categoria): ?>
+                    <label>
+                        <input type="radio" name="categoria" value="<?php echo htmlspecialchars($categoria['nome']); ?>" 
+                        onclick="handleClick(this)" <?php if($categoriaAtual == $categoria['nome']) echo 'checked'; ?>>
+                        <?php echo htmlspecialchars($categoria['nome']); ?>
+                    </label>  
+                <?php endforeach; ?>
+            </div>
+            <button type="submit" class="botao-comprar" style="margin-bottom: 20px;">Aplicar Filtros</button>
+        </form>
+    </div>
 
-<div class="produtos">
-<?php if(count($produtos) > 0): ?>
-    <?php foreach ($produtos as $produto): ?>
-        <div class="card-produto">
-            <img src="fotos/<?php echo $produto['foto1']?>">
-            <div class="card-produto-info">
-                <h3><?php echo htmlspecialchars($produto['descricao']); ?></h3>
-                <div class="preco">
-                R$ <?php echo number_format($produto['preco'], 2, ',', '.'); ?>
-                <button class="botao-comprar">Comprar</button>
+    <div class="produtos">
+    <?php if(count($produtos) > 0): ?>
+        <?php foreach ($produtos as $produto): ?>
+            <div class="card-produto">
+                <img src="fotos/<?php echo $produto['foto1']?>">
+                <div class="card-produto-info">
+                    <h3><?php echo htmlspecialchars($produto['descricao']); ?></h3>
+                    <div class="preco">
+                    R$ <?php echo number_format($produto['preco'], 2, ',', '.'); ?>
+                    <button class="botao-comprar">Comprar</button>
+                    </div>
                 </div>
             </div>
-        </div>
-    <?php endforeach; ?>
-<?php else: ?>
-    <p>Nenhum produto encontrado com os filtros selecionados.</p>
-<?php endif; ?>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <p>Nenhum produto encontrado com os filtros selecionados.</p>
+    <?php endif; ?>
+    </div>
 </div>
+
+<script>
+  let previouslyChecked = null;
+
+  function handleClick(radio) {
+    if (previouslyChecked === radio) {
+      radio.checked = false;
+      previouslyChecked = null;
+    } else {
+      previouslyChecked = radio;
+    }
+  }
+</script>
+
 </body>
 </html>
