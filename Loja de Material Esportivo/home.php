@@ -326,7 +326,7 @@ while ($row = mysql_fetch_assoc($resultadoprodutos)) {
         <a href="produtos.php" class="nav-link">Produtos</a>
         <a href="sobre.php" class="nav-link">Sobre</a>
         <a href="contato.php" class="nav-link">Contato</a>
-        <a href="login.php" class="nav-link login">Login</a>
+        <a href="login.html" class="nav-link login">Login</a>
     </div>
 </nav>
 
