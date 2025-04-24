@@ -314,15 +314,92 @@ while ($row = mysql_fetch_assoc($resultadoprodutos)) {
                 flex-direction: column;
                 gap: 15px;
             }
+}
+.modal {
+            display: none; 
+            position: fixed;
+            z-index: 2000; 
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5); 
+        }
+
+        .modal-conteudo {
+            position: relative;
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-conteudo h3 {
+            color: #212529;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .modal-conteudo p {
+            color: #495057;
+            margin-bottom: 20px;
+        }
+
+        .modal-botoes {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .modal-botoes button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-botoes button:first-child {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .modal-botoes button:first-child:hover {
+            background-color: #0069d9;
+        }
+
+        .modal-botoes button:last-child {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .modal-botoes button:last-child:hover {
+            background-color: #5a6268; 
         }
     </style>
 </head>
 <body>
-<!-- Nova barra de navegação -->
+<div id="modalCarrinho" class="modal">
+    <div class="modal-conteudo">
+        <h3>Adicionar ao carrinho?</h3>
+        <p>Deseja adicionar este produto ao seu carrinho?</p>
+        <div class="modal-botoes">
+            <button onclick="adicionarAoCarrinho()">Sim</button>
+            <button onclick="fecharModal()">Não</button>
+        </div>
+    </div>
+</div>
+
 <nav class="nav">
     <a href="index.php" class="nav-logo">AugusteraInsano</a>
     <div class="nav-links">
         <a href="index.php" class="nav-link">Home</a>
+        <a href="carrinho.php" class="nav-link">Home</a>
         <a href="produtos.php" class="nav-link">Produtos</a>
         <a href="sobre.php" class="nav-link">Sobre</a>
         <a href="contato.php" class="nav-link">Contato</a>
@@ -367,7 +444,7 @@ while ($row = mysql_fetch_assoc($resultadoprodutos)) {
                     <h3><?php echo htmlspecialchars($produto['descricao']); ?></h3>
                     <div class="preco">
                     R$ <?php echo number_format($produto['preco'], 2, ',', '.'); ?>
-                    <button class="botao-comprar">Comprar</button>
+                    <button class="botao-comprar" onclick="abrirModalConfirmacao(<?php echo $produto['codigo']; ?>)">Comprar</button>
                     </div>
                 </div>
             </div>
@@ -389,6 +466,36 @@ while ($row = mysql_fetch_assoc($resultadoprodutos)) {
       previouslyChecked = radio;
     }
   }
+
+  let produtoSelecionado = null;
+
+  function abrirModalConfirmacao(codigoProduto) {
+    produtoSelecionado = codigoProduto;
+    document.getElementById('modalCarrinho').style.display = 'block';
+}
+
+function fecharModal() {
+    document.getElementById('modalCarrinho').style.display = 'none';
+    produtoSelecionado = null;
+}
+
+function adicionarAoCarrinho() {
+    if(!produtoSelecionado) return;
+    
+    fetch('adicionarCarrinho.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'id_produto=' + produtoSelecionado
+    })
+    .then(response => response.text())
+    .then(data => {
+        alert('Produto adicionado ao carrinho!');
+        fecharModal();
+    })
+    .catch(error => console.error(error));
+}
 </script>
 
 </body>
