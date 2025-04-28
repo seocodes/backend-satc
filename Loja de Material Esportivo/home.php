@@ -16,14 +16,11 @@ while ($row = mysql_fetch_assoc($resultcategoria)) {
     $categorias[] = $row;
 }
 
-// Obter os filtros da URL
 $categoriaAtual = isset($_GET['categoria']) ? mysql_real_escape_string($_GET['categoria']) : "";
 $marcaAtual = isset($_GET['marca']) ? mysql_real_escape_string($_GET['marca']) : "";
 
-// Construir a consulta filtrada
 $queryproduto = "SELECT p.* FROM produto p";
 
-// Adicionar JOINs se necessário
 if ($categoriaAtual != "") {
     $queryproduto .= " JOIN categoria c ON p.codcategoria = c.codigo";
 }
@@ -31,7 +28,6 @@ if ($marcaAtual != "") {
     $queryproduto .= " JOIN marca m ON p.codmarca = m.codigo";
 }
 
-// Adicionar cláusulas WHERE
 $where = array();
 if ($categoriaAtual != "") {
     $where[] = "c.nome = '$categoriaAtual'";
@@ -40,19 +36,16 @@ if ($marcaAtual != "") {
     $where[] = "m.nome = '$marcaAtual'";
 }
 
-// Adicionar WHERE se houver filtros
 if (count($where) > 0) {
     $queryproduto .= " WHERE " . implode(" AND ", $where);
 }
 
-// Executar a consulta filtrada
 $resultadoprodutos = mysql_query($queryproduto);
 
 if (!$resultadoprodutos) {
     die("Erro na consulta: " . mysql_error());
 }
 
-// Armazenar os produtos
 $produtos = array();
 while ($row = mysql_fetch_assoc($resultadoprodutos)) {
     $produtos[] = $row;
@@ -81,7 +74,6 @@ while ($row = mysql_fetch_assoc($resultadoprodutos)) {
             min-height: 100vh;
         }
 
-        /* Estilos para a navegação */
         .nav {
             background-color: #212529;
             padding: 15px 30px;
@@ -132,7 +124,6 @@ while ($row = mysql_fetch_assoc($resultadoprodutos)) {
             transform: translateY(-2px);
         }
 
-        /* Ajuste para o conteúdo principal */
         .main-content {
             display: flex;
             flex-grow: 1;
@@ -314,8 +305,9 @@ while ($row = mysql_fetch_assoc($resultadoprodutos)) {
                 flex-direction: column;
                 gap: 15px;
             }
-}
-.modal {
+        }
+        
+        .modal {
             display: none; 
             position: fixed;
             z-index: 2000; 
@@ -399,7 +391,7 @@ while ($row = mysql_fetch_assoc($resultadoprodutos)) {
     <a href="index.php" class="nav-logo">AugusteraInsano</a>
     <div class="nav-links">
         <a href="index.php" class="nav-link">Home</a>
-        <a href="carrinho.php" class="nav-link">Home</a>
+        <a href="carrinho.php" class="nav-link">Carrinho</a>
         <a href="produtos.php" class="nav-link">Produtos</a>
         <a href="sobre.php" class="nav-link">Sobre</a>
         <a href="contato.php" class="nav-link">Contato</a>
@@ -440,6 +432,7 @@ while ($row = mysql_fetch_assoc($resultadoprodutos)) {
         <?php foreach ($produtos as $produto): ?>
             <div class="card-produto">
                 <img src="fotos/<?php echo $produto['foto1']?>">
+
                 <div class="card-produto-info">
                     <h3><?php echo htmlspecialchars($produto['descricao']); ?></h3>
                     <div class="preco">
@@ -497,6 +490,5 @@ function adicionarAoCarrinho() {
     .catch(error => console.error(error));
 }
 </script>
-
 </body>
 </html>
