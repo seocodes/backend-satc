@@ -388,11 +388,10 @@ while ($row = mysql_fetch_assoc($resultadoprodutos)) {
 </div>
 
 <nav class="nav">
-    <a href="index.php" class="nav-logo">AugusteraInsano</a>
+    <a href="home.php" class="nav-logo">AugusteraInsano</a>
     <div class="nav-links">
         <a href="index.php" class="nav-link">Home</a>
         <a href="carrinho.php" class="nav-link">Carrinho</a>
-        <a href="produtos.php" class="nav-link">Produtos</a>
         <a href="sobre.php" class="nav-link">Sobre</a>
         <a href="contato.php" class="nav-link">Contato</a>
         <a href="login.html" class="nav-link login">Login</a>

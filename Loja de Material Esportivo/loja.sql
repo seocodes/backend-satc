@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tempo de Geração: 14/04/2025 às 18h07min
+-- Tempo de Geração: 05/05/2025 às 21h39min
 -- Versão do Servidor: 5.5.20
 -- Versão do PHP: 5.3.9
 
@@ -19,6 +19,30 @@ SET time_zone = "+00:00";
 --
 -- Banco de Dados: `loja`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `carrinho_itens`
+--
+
+CREATE TABLE IF NOT EXISTS `carrinho_itens` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_produto` int(11) NOT NULL,
+  `quantidade` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_produto` (`id_produto`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Extraindo dados da tabela `carrinho_itens`
+--
+
+INSERT INTO `carrinho_itens` (`id`, `id_produto`, `quantidade`) VALUES
+(1, 4, 3),
+(2, 6, 1),
+(3, 1, 1),
+(4, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -146,6 +170,12 @@ INSERT INTO `usuario` (`codigo`, `login`, `senha`) VALUES
 --
 -- Restrições para as tabelas dumpadas
 --
+
+--
+-- Restrições para a tabela `carrinho_itens`
+--
+ALTER TABLE `carrinho_itens`
+  ADD CONSTRAINT `carrinho_itens_ibfk_1` FOREIGN KEY (`id_produto`) REFERENCES `produto` (`codigo`);
 
 --
 -- Restrições para a tabela `produto`
