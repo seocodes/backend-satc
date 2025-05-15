@@ -240,6 +240,11 @@
         </form>
         
         <?php
+        // Verifica se o diretório fotos existe, se não, cria-o
+        if (!file_exists('fotos')) {
+            mkdir('fotos', 0777, true);
+        }
+
         if(isset($_POST['Cadastrar']) || isset($_POST['Alterar']) || isset($_POST['Excluir']) || isset($_POST['Pesquisar'])) {
             echo "<div class='resultado'>";
             
@@ -264,16 +269,33 @@
                 if(empty($titulo) || empty($codautor) || empty($codcategoria) || empty($codeditora)) {
                     echo "Os campos Título, Autor, Categoria e Editora são obrigatórios!";
                 } else {
-                    $fotocapa1 = "";
+                    $fotocapa1 = '';
+                    $fotocapa2 = '';
+                    
+                    // Processar o upload da capa 1
                     if(isset($_FILES['fotocapa1']) && $_FILES['fotocapa1']['error'] == 0) {
-                        $temp_name = $_FILES['fotocapa1']['tmp_name'];
-                        $fotocapa1 = addslashes(file_get_contents($temp_name));
+                        $extensao1 = strtolower(substr($_FILES['fotocapa1']['name'], -4));
+                        $novo_nome1 = md5(time().'1'.$extensao1);
+                        $diretorio = "fotos/";
+                        
+                        if(move_uploaded_file($_FILES['fotocapa1']['tmp_name'], $diretorio.$novo_nome1)) {
+                            $fotocapa1 = $novo_nome1;
+                        } else {
+                            echo "Falha ao fazer upload da imagem da capa frontal.<br>";
+                        }
                     }
                     
-                    $fotocapa2 = "";
+                    // Processar o upload da capa 2
                     if(isset($_FILES['fotocapa2']) && $_FILES['fotocapa2']['error'] == 0) {
-                        $temp_name = $_FILES['fotocapa2']['tmp_name'];
-                        $fotocapa2 = addslashes(file_get_contents($temp_name));
+                        $extensao2 = strtolower(substr($_FILES['fotocapa2']['name'], -4));
+                        $novo_nome2 = md5(time().'2'.$extensao2);
+                        $diretorio = "fotos/";
+                        
+                        if(move_uploaded_file($_FILES['fotocapa2']['tmp_name'], $diretorio.$novo_nome2)) {
+                            $fotocapa2 = $novo_nome2;
+                        } else {
+                            echo "Falha ao fazer upload da imagem da capa traseira.<br>";
+                        }
                     }
                     
                     $sql = "INSERT INTO livro (titulo, nrpaginas, ano, codautor, codcategoria, codeditora, resenha, preco, fotocapa1, fotocapa2) 
@@ -303,10 +325,11 @@
                 if(empty($codigo)) {
                     echo "O código é obrigatório para alteração!";
                 } else {
-                    $check = mysqli_query($conectar, "SELECT codigo FROM livro WHERE codigo = '$codigo'");
+                    $check = mysqli_query($conectar, "SELECT codigo, fotocapa1, fotocapa2 FROM livro WHERE codigo = '$codigo'");
                     if(mysqli_num_rows($check) == 0) {
                         echo "Livro não encontrado!";
                     } else {
+                        $livro = mysqli_fetch_assoc($check);
                         $sql = "UPDATE livro SET ";
                         $campos = array();
                         
@@ -320,15 +343,36 @@
                         if(!empty($preco)) $campos[] = "preco = '$preco'";
                         
                         if(isset($_FILES['fotocapa1']) && $_FILES['fotocapa1']['error'] == 0) {
-                            $temp_name = $_FILES['fotocapa1']['tmp_name'];
-                            $fotocapa1 = addslashes(file_get_contents($temp_name));
-                            $campos[] = "fotocapa1 = '$fotocapa1'";
+                            $extensao1 = strtolower(substr($_FILES['fotocapa1']['name'], -4));
+                            $novo_nome1 = md5(time().'1'.$extensao1);
+                            $diretorio = "fotos/";
+                            
+                            if(move_uploaded_file($_FILES['fotocapa1']['tmp_name'], $diretorio.$novo_nome1)) {
+                                $campos[] = "fotocapa1 = '$novo_nome1'";
+                                
+                                if(!empty($livro['fotocapa1']) && file_exists($diretorio.$livro['fotocapa1'])) {
+                                    unlink($diretorio.$livro['fotocapa1']);
+                                }
+                            } else {
+                                echo "Falha ao fazer upload da nova imagem da capa frontal.<br>";
+                            }
                         }
                         
                         if(isset($_FILES['fotocapa2']) && $_FILES['fotocapa2']['error'] == 0) {
-                            $temp_name = $_FILES['fotocapa2']['tmp_name'];
-                            $fotocapa2 = addslashes(file_get_contents($temp_name));
-                            $campos[] = "fotocapa2 = '$fotocapa2'";
+                            $extensao2 = strtolower(substr($_FILES['fotocapa2']['name'], -4));
+                            $novo_nome2 = md5(time().'2'.$extensao2);
+                            $diretorio = "fotos/";
+                            
+                            if(move_uploaded_file($_FILES['fotocapa2']['tmp_name'], $diretorio.$novo_nome2)) {
+                                $campos[] = "fotocapa2 = '$novo_nome2'";
+                                
+                                // Remover arquivo antigo se existir
+                                if(!empty($livro['fotocapa2']) && file_exists($diretorio.$livro['fotocapa2'])) {
+                                    unlink($diretorio.$livro['fotocapa2']);
+                                }
+                            } else {
+                                echo "Falha ao fazer upload da nova imagem da capa traseira.<br>";
+                            }
                         }
                         
                         if(count($campos) > 0) {
@@ -355,10 +399,22 @@
                 if(empty($codigo)) {
                     echo "O código é obrigatório para exclusão!";
                 } else {
-                    $check = mysqli_query($conectar, "SELECT codigo FROM livro WHERE codigo = '$codigo'");
+                    $check = mysqli_query($conectar, "SELECT codigo, fotocapa1, fotocapa2 FROM livro WHERE codigo = '$codigo'");
                     if(mysqli_num_rows($check) == 0) {
                         echo "Livro não encontrado!";
                     } else {
+                        $livro = mysqli_fetch_assoc($check);
+                        $diretorio = "fotos/";
+                        
+                        // Remover arquivos de imagem se existirem
+                        if(!empty($livro['fotocapa1']) && file_exists($diretorio.$livro['fotocapa1'])) {
+                            unlink($diretorio.$livro['fotocapa1']);
+                        }
+                        
+                        if(!empty($livro['fotocapa2']) && file_exists($diretorio.$livro['fotocapa2'])) {
+                            unlink($diretorio.$livro['fotocapa2']);
+                        }
+                        
                         $sql = "DELETE FROM livro WHERE codigo = '$codigo'";
                         $resultado = mysqli_query($conectar, $sql);
                         
@@ -383,7 +439,7 @@
                 if(!empty($codautor)) $where[] = "l.codautor = '$codautor'";
                 if(!empty($codcategoria)) $where[] = "l.codcategoria = '$codcategoria'";
                 
-                $sql = "SELECT l.codigo, l.titulo, l.nrpaginas, l.ano, a.nome as autor, c.nome as categoria, e.nome as editora, l.preco 
+                $sql = "SELECT l.codigo, l.titulo, l.nrpaginas, l.ano, a.nome as autor, c.nome as categoria, e.nome as editora, l.preco, l.fotocapa1, l.fotocapa2 
                         FROM livro l 
                         LEFT JOIN autor a ON l.codautor = a.codigo 
                         LEFT JOIN categoria c ON l.codcategoria = c.codigo 
@@ -409,6 +465,7 @@
                     echo "<th style='padding:8px;'>Categoria</th>";
                     echo "<th style='padding:8px;'>Editora</th>";
                     echo "<th style='padding:8px;'>Preço</th>";
+                    echo "<th style='padding:8px;'>Capa</th>";
                     echo "</tr>";
                     
                     $cor = false;
@@ -423,6 +480,11 @@
                         echo "<td style='padding:8px;'>" . $linha['categoria'] . "</td>";
                         echo "<td style='padding:8px;'>" . $linha['editora'] . "</td>";
                         echo "<td style='padding:8px;'>R$ " . number_format($linha['preco'], 2, ',', '.') . "</td>";
+                        echo "<td style='padding:8px;'>";
+                        if(!empty($linha['fotocapa1'])) {
+                            echo "<img src='fotos/" . $linha['fotocapa1'] . "' height='50' width='35' />";
+                        }
+                        echo "</td>";
                         echo "</tr>";
                         $cor = !$cor;
                     }
