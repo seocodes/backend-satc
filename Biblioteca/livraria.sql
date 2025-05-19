@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tempo de Geração: 12/05/2025 às 20h20min
+-- Tempo de Geração: 19/05/2025 às 21h49min
 -- Versão do Servidor: 5.5.20
 -- Versão do PHP: 5.3.9
 
@@ -31,14 +31,16 @@ CREATE TABLE IF NOT EXISTS `autor` (
   `nome` varchar(50) NOT NULL,
   `pais` varchar(50) NOT NULL,
   PRIMARY KEY (`codigo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Extraindo dados da tabela `autor`
 --
 
 INSERT INTO `autor` (`codigo`, `nome`, `pais`) VALUES
-(1, 'Machado De Assis', 'Brasil');
+(1, 'Machado De Assis', 'Brasil'),
+(2, 'Eiichiro Oda', 'JapÃ£o'),
+(3, 'Sun Tzu', 'JapÃ£o');
 
 -- --------------------------------------------------------
 
@@ -50,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `categoria` (
   `codigo` int(5) NOT NULL AUTO_INCREMENT,
   `nome` varchar(50) NOT NULL,
   PRIMARY KEY (`codigo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Extraindo dados da tabela `categoria`
@@ -58,7 +60,9 @@ CREATE TABLE IF NOT EXISTS `categoria` (
 
 INSERT INTO `categoria` (`codigo`, `nome`) VALUES
 (1, 'Romance'),
-(2, 'FicÃ§Ã£o CietÃ­fica');
+(2, 'FicÃ§Ã£o CietÃ­fica'),
+(3, 'AÃ§Ã£o'),
+(4, 'NÃ£o ficÃ§Ã£o');
 
 -- --------------------------------------------------------
 
@@ -70,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `editora` (
   `codigo` int(5) NOT NULL AUTO_INCREMENT,
   `nome` varchar(50) NOT NULL,
   PRIMARY KEY (`codigo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Extraindo dados da tabela `editora`
@@ -78,7 +82,9 @@ CREATE TABLE IF NOT EXISTS `editora` (
 
 INSERT INTO `editora` (`codigo`, `nome`) VALUES
 (1, 'Saraiva'),
-(3, 'Panini');
+(3, 'Panini'),
+(4, 'Toei'),
+(5, 'Novo SÃ©culo');
 
 -- --------------------------------------------------------
 
@@ -102,14 +108,15 @@ CREATE TABLE IF NOT EXISTS `livro` (
   KEY `codautor` (`codautor`),
   KEY `codcategoria` (`codcategoria`),
   KEY `codeditora` (`codeditora`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Extraindo dados da tabela `livro`
 --
 
 INSERT INTO `livro` (`codigo`, `titulo`, `nrpaginas`, `ano`, `codautor`, `codcategoria`, `codeditora`, `resenha`, `preco`, `fotocapa1`, `fotocapa2`) VALUES
-(1, 'A Cartomante', 350, 1967, 1, 1, 1, 'Muito bom. Muito bom. Muito bom!', '89.99', 'ÿØÿà\0JFIF\0\0\0\0\0\0ÿÛ\0„\0\n\n\n\n\n\r\r\Z\Z\Z\Z\Z\Z\Z\Z'' #%''''&&(,-''\Z,<\n\n\n\n\n\r\n\n', 'ÿØÿà\0JFIF\0\0\0\0\0\0ÿÛ\0„\0\n\n\n\n\n\r\r\Z\Z\Z\Z\Z\Z\Z\Z'' #%''''&&(,-''\Z,<\n\n\n\n\n\r\n\n');
+(2, 'One Piece vol. 1', 1000, 1999, 2, 3, 4, 'MUITO BOM', '199.99', '863f6861fa35a5feb470d7b6267f3d48', '8bb2e3da4fe115f474b17d83270830e5'),
+(3, 'Arte da Guerra', 128, 2011, 3, 4, 5, 'Bom para virar CEO.', '69.99', '1b3171b059cee4003e0b292c69ebcfff', '80f76d74cd6f874f6d5582f37e8f19fc');
 
 -- --------------------------------------------------------
 
