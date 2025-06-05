@@ -398,7 +398,7 @@ $total = 0;
 </head>
 <body>
     <nav class="nav">
-        <a href="home.php" class="nav-logo">Livraria Virtual</a>
+        <a href="home.php" class="nav-logo">AUGUSTERA CHAPERA</a>
         <div class="nav-links">
             <a href="home.php" class="nav-link">Home</a>
             <a href="carrinho.php" class="nav-link active">Carrinho</a>

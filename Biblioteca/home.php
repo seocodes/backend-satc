@@ -311,6 +311,83 @@
                 gap: 15px;
             }
         }
+
+        .banner-container {
+            width: 100%;
+            overflow: hidden;
+            background: linear-gradient(135deg, #8855dd 0%, #a366e6 100%);
+            padding: 20px 0;
+            position: relative;
+            box-shadow: 0 2px 10px rgba(136, 85, 221, 0.2);
+        }
+        .banner-scroll {
+            display: flex;
+            animation: scroll 30s linear infinite;
+            gap: 20px;
+            padding: 0 20px;
+        }
+        .banner-item {
+            flex-shrink: 0;
+            width: 120px;
+            height: 160px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+            background-color: white;
+        }
+        .banner-item:hover {
+            transform: scale(1.05);
+        }
+        .banner-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .banner-item:hover img {
+            transform: scale(1.1);
+        }
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(calc(-120px * 10 - 200px));
+            }
+        }
+        .banner-scroll:hover {
+            animation-play-state: paused;
+        }
+
+        @media (max-width: 1024px) {
+            .banner-item {
+                width: 100px;
+                height: 130px;
+            }
+            @keyframes scroll {
+                0% {
+                    transform: translateX(0);
+                }
+                100% {
+                    transform: translateX(calc(-100px * 10 - 200px));
+                }
+            }
+        }
+        @media (max-width: 600px) {
+            .banner-item {
+                width: 80px;
+                height: 110px;
+            }
+            @keyframes scroll {
+                0% {
+                    transform: translateX(0);
+                }
+                100% {
+                    transform: translateX(calc(-80px * 10 - 200px));
+                }
+            }
+        }
     </style>
 </head>
 <body>
@@ -326,13 +403,35 @@
     </div>
 
     <nav class="nav">
-        <a href="home.php" class="nav-logo">Livraria Virtual</a>
+        <a href="home.php" class="nav-logo">AUGUSTERA CHAPERA</a>
         <div class="nav-links">
             <a href="home.php" class="nav-link">Home</a>
             <a href="carrinho.php" class="nav-link">Carrinho</a>
             <a href="login.php" class="nav-link login">Login</a>
         </div>
     </nav>
+
+    <div class="banner-container">
+        <div class="banner-scroll">
+        <?php
+        // Array com nomes das imagens da pasta fotos
+        $imagens_banner = array(
+            'images.jpg',
+            '81dYD9yyjBL._SY466_.jpg', 
+            'A18sO0RgI+L._UF894,1000_QL80_.jpg',
+        );
+        
+        // Duplica o array para criar o efeito de loop infinito
+        $imagens_duplicadas = array_merge($imagens_banner, $imagens_banner);
+        
+        foreach($imagens_duplicadas as $imagem) {
+            echo '<div class="banner-item">';
+            echo '<img src="fotos/' . $imagem . '" alt="Livro em destaque" onerror="this.src=\'imagens/sem-capa.jpg\'">';
+            echo '</div>';
+        }
+        ?>
+        </div>
+    </div>
 
     <div class="main-content">
         <div class="sidebar">
