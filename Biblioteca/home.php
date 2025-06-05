@@ -419,6 +419,7 @@
             'images.jpg',
             '81dYD9yyjBL._SY466_.jpg', 
             'A18sO0RgI+L._UF894,1000_QL80_.jpg',
+            '51Fe45NGwkL.jpg',
         );
         
         // Duplica o array para criar o efeito de loop infinito
