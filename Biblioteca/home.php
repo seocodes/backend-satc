@@ -420,6 +420,11 @@
             '81dYD9yyjBL._SY466_.jpg', 
             'A18sO0RgI+L._UF894,1000_QL80_.jpg',
             '51Fe45NGwkL.jpg',
+            '61dXwdPOY0L._SY425_.jpg',
+            '61RvpX3hkTL._SY342_.jpg',
+            '71wdbq8NbFL._SY385_.jpg',
+            '916WkSH4cGL._SY385_.jpg',
+            '61hOp6UFvCL._SY425_.jpg',
         );
         
         // Duplica o array para criar o efeito de loop infinito
